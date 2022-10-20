@@ -1,0 +1,8 @@
+image: node:16-alpine
+
+pipelines:
+  default:
+    - step:
+        name: test
+        script:
+          - echo `Here's my placeholder pipeline`
