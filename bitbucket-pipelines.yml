@@ -5,4 +5,4 @@ pipelines:
     - step:
         name: test
         script:
-          - echo `Here's my placeholder pipeline`
+          - echo "Here's my placeholder pipeline"
