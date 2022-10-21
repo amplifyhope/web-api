@@ -7,8 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["ES2020"],
     "module": "CommonJS",
     "moduleResolution": "node",
     "noEmit": true,
@@ -25,8 +24,8 @@
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
-    "target": "esnext"
+    "target": "ES2019"
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

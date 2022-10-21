@@ -7,7 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 export const getCheckoutSessionById = async (req: Request, res: Response) => {
-  const id: string = req.query.id as string
+  const { id } = req.params
+  
   try {
     if (!id.startsWith('cs_')) {
       throw Error('Incorrect CheckoutSession Id.')

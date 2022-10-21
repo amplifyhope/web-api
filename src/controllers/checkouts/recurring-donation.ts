@@ -1,7 +1,7 @@
-import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from 'config'
+import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '../../config'
 import Stripe from 'stripe'
-import { DonationRequestBody, FundOptions, IntervalOptions } from 'types'
-import { formatAmountForStripe } from 'utils/stripe-helpers'
+import { DonationRequestBody, FundOptions, IntervalOptions } from '../../types'
+import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {

@@ -6,7 +6,7 @@ import {
   oneTimeDonationCheckout,
   recurringDonationCheckout,
   stripeWebhooks
-} from 'controllers'
+} from '../controllers'
 
 const router = express.Router()
 router.use(cookieParser())
