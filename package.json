@@ -6,7 +6,7 @@
   "author": "Anthony Giannell",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./build && tsc",
     "format": "prettier --write .",
     "start": "NODE_OPTIONS='--unhandled-rejections=warn' npm install && ts-node src/index.ts",
     "start:dev": "NODE_OPTIONS='--unhandled-rejections=warn' ts-node-dev src/index.ts",
