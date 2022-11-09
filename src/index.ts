@@ -11,7 +11,7 @@ const app = express()
 const corsOptions: CorsOptions = {
   origin: [
     'https://amplifyhope.cc',
-    'https://test.amplifyhope.cc',
+    'https://stage.amplifyhope.cc',
     'http://dev.amplifyhope.cc:3000'
   ]
 }
