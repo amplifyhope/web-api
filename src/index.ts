@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
-import cors, {CorsOptions} from 'cors'
+import cors, { CorsOptions } from 'cors'
 import routes from './routes'
 
 process.on('SIGTERM', () => process.exit(0))

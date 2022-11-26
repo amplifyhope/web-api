@@ -14,14 +14,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
   const { amount, email, fund }: DonationRequestBody = req.body
-  
+
   try {
     if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
       throw new Error('Invalid amount.')
     }
 
     const customer = await stripe.customers.list({ email })
-    
+
     const params: Stripe.Checkout.SessionCreateParams = {
       customer: customer.data[0] ? customer.data[0].id : undefined,
       customer_email: !customer.data[0] ? email : undefined,

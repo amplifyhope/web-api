@@ -1,4 +1,4 @@
-import express, {json, raw} from 'express'
+import express, { json, raw } from 'express'
 import cookieParser from 'cookie-parser'
 import {
   getCheckoutSessionById,
@@ -19,6 +19,10 @@ router.get('/health', (_req, res) => {
 router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)
 router.post('/checkouts/one-time', json(), oneTimeDonationCheckout)
 router.post('/checkouts/recurring', json(), recurringDonationCheckout)
-router.post('/stripe-webhooks', raw({type: 'application/json'}), stripeWebhooks)
+router.post(
+  '/stripe-webhooks',
+  raw({ type: 'application/json' }),
+  stripeWebhooks
+)
 
 export default router
