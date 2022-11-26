@@ -1,5 +1,4 @@
-import express from 'express'
-import bodyParser from 'body-parser'
+import express, { json, raw } from 'express'
 import cookieParser from 'cookie-parser'
 import {
   getCheckoutSessionById,
@@ -10,7 +9,6 @@ import {
 
 const router = express.Router()
 router.use(cookieParser())
-router.use(bodyParser.json({ limit: '1024kb' }))
 
 router.get('/health', (_req, res) => {
   res.status(200).json({
@@ -18,9 +16,13 @@ router.get('/health', (_req, res) => {
   })
 })
 
-router.get('/checkout-sessions/:id', getCheckoutSessionById)
-router.post('/checkouts/one-time', oneTimeDonationCheckout)
-router.post('/checkouts/recurring', recurringDonationCheckout)
-router.post('/stripe-webhooks', stripeWebhooks)
+router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)
+router.post('/checkouts/one-time', json(), oneTimeDonationCheckout)
+router.post('/checkouts/recurring', json(), recurringDonationCheckout)
+router.post(
+  '/stripe-webhooks',
+  raw({ type: 'application/json' }),
+  stripeWebhooks
+)
 
 export default router

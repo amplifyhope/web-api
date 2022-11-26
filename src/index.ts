@@ -2,17 +2,20 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
-import cors, {CorsOptions} from 'cors'
+import cors, { CorsOptions } from 'cors'
 import routes from './routes'
 
+process.on('SIGTERM', () => process.exit(0))
+process.on('SIGINT', () => process.exit(0))
 
 const app = express()
 
 const corsOptions: CorsOptions = {
   origin: [
     'https://amplifyhope.cc',
-    'https://test.amplifyhope.cc',
-    'http://dev.amplifyhope.cc:3000'
+    'https://stage.amplifyhope.cc',
+    'http://dev.amplifyhope.cc:3000',
+    'http://localhost:3000'
   ]
 }
 
