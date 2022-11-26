@@ -1,4 +1,3 @@
-import { buffer } from 'micro'
 import { Request, Response } from 'express'
 import Stripe from 'stripe'
 
@@ -9,22 +8,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!
 
-export const config = {
-  api: {
-    bodyParser: false
-  }
-}
-
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
   if (req.method === 'POST') {
-    const buf = await buffer(req)
     const sig = req.headers['stripe-signature']!
-
     let event: Stripe.Event
 
     try {
-      event = stripe.webhooks.constructEvent(buf.toString(), sig, webhookSecret)
+      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown Error'
       if (err! instanceof Error) {
