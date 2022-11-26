@@ -1,5 +1,12 @@
 # Amplify Hope API Release Notes
 
+## v1.3.0
+
+- Updated CORS urls
+- Added Node engine for beanstalk
+- Removed `bodyParser` in favor of express
+- Fixed stripe webhooks by removing Next.JS specific configurations
+
 ## v1.2.0
 
 - Added Node install to pre-deploy
