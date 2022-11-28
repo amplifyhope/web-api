@@ -2,6 +2,10 @@
 
 ## v1.3.0
 
+- Added `www.amplifyhope.cc` to `corsOptions`
+
+## v1.3.0
+
 - Updated CORS urls
 - Added Node engine for beanstalk
 - Removed `bodyParser` in favor of express

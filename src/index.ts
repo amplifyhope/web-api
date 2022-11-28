@@ -13,6 +13,7 @@ const app = express()
 const corsOptions: CorsOptions = {
   origin: [
     'https://amplifyhope.cc',
+    'https://www.amplifyhope.cc',
     'https://stage.amplifyhope.cc',
     'http://dev.amplifyhope.cc:3000',
     'http://localhost:3000'
