@@ -5,8 +5,7 @@ pipelines:
     - step: 
         name: build
         script:
-          - yarn add typescript
-          - tsc
+          - yarn build
     - step:
         name: test
         script:
