@@ -2,15 +2,16 @@ image: node:16-alpine
 
 pipelines:
   default:
-    # - step: 
-    #     name: build
-    #     script:
-    #       - tsc
-    # - step:
-    #     name: test
-    #     script:
-    #       - yarn add -D ts-mocha
-    #       - yarn test:unit
+    - step: 
+        name: build
+        script:
+          - yarn add typescript
+          - tsc
+    - step:
+        name: test
+        script:
+          - yarn add -D ts-mocha
+          - yarn test:unit
     - step:
         name: snyk
         script:
