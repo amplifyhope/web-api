@@ -2,7 +2,21 @@ image: node:16-alpine
 
 pipelines:
   default:
+    # - step: 
+    #     name: build
+    #     script:
+    #       - tsc
+    # - step:
+    #     name: test
+    #     script:
+    #       - yarn add -D ts-mocha
+    #       - yarn test:unit
     - step:
-        name: test
-        script:
-          - echo "Here's my placeholder pipeline"
+      name: snyk
+      script:
+        - pipe: snyk/snyk-scan:0.5.3
+        - variables:
+          SNYK_TOKEN: 30416427-d568-476e-adac-5546a8d2e290
+          LANGUAGE: yarn
+          DONT_BREAK_BUILD: true
+
