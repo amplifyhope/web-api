@@ -17,4 +17,4 @@ pipelines:
           - pipe: snyk/snyk-scan:0.5.3
             variables:
               SNYK_TOKEN: $SNYK_TOKEN
-              LANGUAGE: yarn
+              LANGUAGE: "yarn"
