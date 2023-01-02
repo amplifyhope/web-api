@@ -5,4 +5,19 @@ pipelines:
     - step:
         name: test
         script:
-          - echo "Here's my placeholder pipeline"
+          - yarn add -D ts-mocha
+          - yarn test:unit
+    - step: 
+        name: build
+        script:
+          - yarn add -D typescript
+          - yarn build
+        artifacts:
+          - build/**
+    - step:
+        name: snyk
+        script:
+          - pipe: snyk/snyk-scan:0.5.3
+            variables:
+              SNYK_TOKEN: $SNYK_TOKEN
+              LANGUAGE: npm
