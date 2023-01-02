@@ -5,6 +5,7 @@ pipelines:
     - step: 
         name: build
         script:
+          - yarn add -D typescript
           - yarn build
     - step:
         name: test
