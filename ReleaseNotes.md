@@ -1,6 +1,10 @@
 # Amplify Hope API Release Notes
 
-## v1.3.0
+## v1.4.0
+
+- Added tests and snyk to pipeline.
+
+## v1.3.1
 
 - Added `www.amplifyhope.cc` to `corsOptions`
 
