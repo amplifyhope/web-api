@@ -21,8 +21,6 @@ export const recurringDonationCheckout = async (
 
     if (fund === FundOptions.general)
       product = process.env.STRIPE_RECURRING_PRODUCT_ID
-    if (fund === FundOptions.hope40)
-      product = process.env.STRIPE_RECURRING_HOPE40_PRODUCT_ID
     if (interval === IntervalOptions.quarter) intervalCount = 3
 
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)

@@ -1,5 +1,9 @@
 # Amplify Hope API Release Notes
 
+## v1.5.0
+
+- Removed Hope40
+
 ## v1.4.0
 
 - Added tests and snyk to pipeline.
