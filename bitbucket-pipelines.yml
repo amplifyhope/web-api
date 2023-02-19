@@ -7,7 +7,7 @@ pipelines:
         script:
           - yarn add -D ts-mocha
           - yarn test:unit
-    - step: 
+    - step:
         name: build
         script:
           - yarn add -D typescript
