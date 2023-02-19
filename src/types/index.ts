@@ -12,6 +12,5 @@ export enum IntervalOptions {
 }
 
 export enum FundOptions {
-  general = 'general',
-  hope40 = 'hope40'
+  general = 'general'
 }
