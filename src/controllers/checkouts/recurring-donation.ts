@@ -3,16 +3,18 @@ import Stripe from 'stripe'
 import { DonationRequestBody, FundOptions, IntervalOptions } from '../../types'
 import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
+import { getConfig } from '../../config/config'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
-  typescript: true
-})
 
 export const recurringDonationCheckout = async (
   req: Request,
   res: Response
-) => {
+  ) => {
+  const stripe = new Stripe(getConfig().stripeSecretKey, {
+    apiVersion: '2020-08-27',
+    typescript: true
+  })
+
   if (req.method === 'POST') {
     let product: string | undefined
     let intervalCount = 1
@@ -20,7 +22,7 @@ export const recurringDonationCheckout = async (
     const { amount, email, interval, fund }: DonationRequestBody = req.body
 
     if (fund === FundOptions.general)
-      product = process.env.STRIPE_RECURRING_PRODUCT_ID
+      product = getConfig().StripeRecurringProductId
     if (interval === IntervalOptions.quarter) intervalCount = 3
 
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)

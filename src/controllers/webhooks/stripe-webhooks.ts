@@ -1,15 +1,16 @@
 import { Request, Response } from 'express'
 import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
-  typescript: true
-})
-
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!
+import { getConfig } from '../../config/config'
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
+  const stripe = new Stripe(getConfig().stripeSecretKey, {
+    apiVersion: '2020-08-27',
+    typescript: true
+  })
+  
+  const webhookSecret: string = getConfig().stripeWebHookSecret
+
   if (req.method === 'POST') {
     const sig = req.headers['stripe-signature']!
     let event: Stripe.Event
