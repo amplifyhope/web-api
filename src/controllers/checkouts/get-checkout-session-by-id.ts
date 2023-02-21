@@ -7,7 +7,7 @@ export const getCheckoutSessionById = async (req: Request, res: Response) => {
     apiVersion: '2020-08-27',
     typescript: true
   })
-  
+
   const { id } = req.params
 
   try {

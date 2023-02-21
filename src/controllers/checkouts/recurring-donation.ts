@@ -5,11 +5,10 @@ import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
 import { getConfig } from '../../config/config'
 
-
 export const recurringDonationCheckout = async (
   req: Request,
   res: Response
-  ) => {
+) => {
   const stripe = new Stripe(getConfig().stripeSecretKey, {
     apiVersion: '2020-08-27',
     typescript: true

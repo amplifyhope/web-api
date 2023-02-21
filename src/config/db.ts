@@ -42,7 +42,7 @@ export const getPool = () => {
 
 export const getPgPlaceholders = (length: number, first = 1): string => {
   return R.range(first, first + length)
-    .map((n) => '$' + n)
+    .map(n => '$' + n)
     .join(', ')
 }
 
@@ -55,7 +55,9 @@ export const buildUpsertQuery = ({
 }: UpsertQueryConfig): QueryConfig => {
   const fieldNames = Object.keys(obj)
   const fieldNamesInSnakeCase = Object.keys(snakecase(obj))
-  const nonPkFieldsInSnakecase = fieldNamesInSnakeCase.filter((x) => !pkFieldNames.includes(x))
+  const nonPkFieldsInSnakecase = fieldNamesInSnakeCase.filter(
+    x => !pkFieldNames.includes(x)
+  )
 
   const getSetter = (snakecaseFieldName: string): string => {
     if (setterOverrides[snakecaseFieldName]) {
@@ -65,7 +67,9 @@ export const buildUpsertQuery = ({
   }
 
   const getValue = (fieldName: string): any => {
-    return jsonFieldNames.includes(fieldName) ? JSON.stringify(obj[fieldName]) : obj[fieldName]
+    return jsonFieldNames.includes(fieldName)
+      ? JSON.stringify(obj[fieldName])
+      : obj[fieldName]
   }
 
   return {
@@ -89,7 +93,9 @@ export const buildDeleteQuery = ({
   return {
     text: `
       DELETE FROM ${tableName}
-      WHERE ${keys.map((key, index) => `"${key}" = $${index + 1}`).join(' AND ')}
+      WHERE ${keys
+        .map((key, index) => `"${key}" = $${index + 1}`)
+        .join(' AND ')}
     `,
     values: Object.values(key)
   }

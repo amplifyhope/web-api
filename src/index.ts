@@ -1,7 +1,6 @@
 import { app } from './app'
 import { initConfig, getConfig } from './config/config'
 
-
 const main = async () => {
   await initConfig()
   const config = getConfig()
