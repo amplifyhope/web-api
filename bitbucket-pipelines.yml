@@ -1,11 +1,5 @@
 image: node:16-alpine
 
-options:
-  docker: true
-
-definitions:
-
-
 pipelines:
   default:
     - step:
@@ -17,12 +11,14 @@ pipelines:
         name: build and push
         script:
           - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-          - docker login -u agiannellah -p $DOCKER_HUB_TOKEN
+          - docker login -u agiannellah --password-stdin $DOCKER_HUB_TOKEN
           - docker build 
             -t amplify-hope-api:latest
-            -t amplify-hope-api:$BITBUCKET_COMMIT_SHORT_SHA
+            -t amplify-hope-api:$BITBUCKET_COMMIT_SHORT_SHA .
           - docker push amplify-hope-api:latest
           - docker push amplify-hope-api:$BITBUCKET_COMMIT_SHORT_SHA
+        services:
+          - docker
     - step:
         name: snyk
         script:
