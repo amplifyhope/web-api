@@ -8,23 +8,28 @@ definitions:
 
 pipelines:
   default:
-    # - step:
-    #     name: test
-    #     script:
-    #       - yarn add -D ts-mocha
-    #       - yarn test:unit
     - step:
-        name: build
+        name: test
         script:
-          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::5}"
-          - echo $BITBUCKET_COMMIT_SHORT_SHA
-    # - step:
-    #     name: snyk
-    #     script:
-    #       - pipe: snyk/snyk-scan:0.5.3
-    #         variables:
-    #           SNYK_TOKEN: $SNYK_TOKEN
-    #           LANGUAGE: npm
+          - yarn add -D ts-mocha
+          - yarn test:unit
+    - step:
+        name: build and push
+        script:
+          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+          - docker login -u agiannellah -p $DOCKER_HUB_TOKEN
+          - docker build 
+            -t amplify-hope-api:latest
+            -t amplify-hope-api:$BITBUCKET_COMMIT_SHORT_SHA
+          - docker push amplify-hope-api:latest
+          - docker push amplify-hope-api:$BITBUCKET_COMMIT_SHORT_SHA
+    - step:
+        name: snyk
+        script:
+          - pipe: snyk/snyk-scan:0.5.3
+            variables:
+              SNYK_TOKEN: $SNYK_TOKEN
+              LANGUAGE: npm
   branches:
     develop:
       - step:
