@@ -16,8 +16,8 @@ pipelines:
     - step:
         name: build
         script:
-          - echo $BITBUCKET_BUILD_NUMBER
-          - echo $BITBUCKET_COMMIT:0:5
+          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::5}"
+          - echo BITBUCKET_COMMIT_SHORT_SHA
     - step:
         name: snyk
         script:
