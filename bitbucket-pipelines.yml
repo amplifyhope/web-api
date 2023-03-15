@@ -1,5 +1,11 @@
 image: node:16-alpine
 
+options:
+  docker: true
+
+definitions:
+
+
 pipelines:
   default:
     - step:
@@ -11,7 +17,7 @@ pipelines:
         name: build
         script:
           - echo $BITBUCKET_BUILD_NUMBER
-          - echo $BITBUCKET_COMMIT
+          - echo $BITBUCKET_COMMIT:0:5
     - step:
         name: snyk
         script:
