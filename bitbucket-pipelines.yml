@@ -10,10 +10,8 @@ pipelines:
     - step:
         name: build
         script:
-          - yarn add -D typescript
-          - yarn build
-        artifacts:
-          - build/**
+          - echo $BITBUCKET_BUILD_NUMBER
+          - echo $BITBUCKET_COMMIT
     - step:
         name: snyk
         script:
@@ -21,3 +19,15 @@ pipelines:
             variables:
               SNYK_TOKEN: $SNYK_TOKEN
               LANGUAGE: npm
+  branches:
+    develop:
+      - step:
+          name: deploy-staging
+          script:
+            - echo "Deploying to stage"
+    main:
+      - step:
+          name: deploy-production
+          trigger: manual
+          script:
+            - echo "Deploying to production"
