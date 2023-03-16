@@ -2,30 +2,36 @@ image: node:16-alpine
 
 pipelines:
   default:
+    # - step:
+    #     name: test
+    #     script:
+    #       - yarn add -D ts-mocha
+    #       - yarn test:unit
+    # - step:
+    #     name: build and push
+    #     script:
+    #       - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+    #       - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+    #       - docker build 
+    #         -t agiannellah/ah-api:latest
+    #         -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
+    #       - docker push agiannellah/ah-api:latest
+    #       - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
+    #     services:
+    #       - docker
+    # - step:
+    #     name: snyk
+    #     script:
+    #       - pipe: snyk/snyk-scan:0.5.3
+    #         variables:
+    #           SNYK_TOKEN: $SNYK_TOKEN
+    #           LANGUAGE: npm
     - step:
-        name: test
+        name: test-ssh
         script:
-          - yarn add -D ts-mocha
-          - yarn test:unit
-    - step:
-        name: build and push
-        script:
-          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-          - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-          - docker build 
-            -t agiannellah/ah-api:latest
-            -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
-          - docker push agiannellah/ah-api:latest
-          - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
-        services:
-          - docker
-    - step:
-        name: snyk
-        script:
-          - pipe: snyk/snyk-scan:0.5.3
-            variables:
-              SNYK_TOKEN: $SNYK_TOKEN
-              LANGUAGE: npm
+          - ssh -i $BITBUCKET_SSH_KEY_FILE ubuntu@44.230.137.242
+          - ls
+          - echo done
   branches:
     develop:
       - step:
