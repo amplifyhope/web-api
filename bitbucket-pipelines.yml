@@ -33,7 +33,10 @@ pipelines:
             variables:
               SSH_USER: ubuntu
               SERVER: '44.230.137.242'
-              COMMAND: echo $HOSTNAME
+              COMMAND: |
+                cd proj;
+                cd amplify-hope-api;
+                ls
   branches:
     develop:
       - step:
