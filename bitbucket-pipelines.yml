@@ -13,11 +13,11 @@ pipelines:
           - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
           - export VERSION="$(yarn run version)"
           - export APP_VERSION="v$VERSION"
-          - echo APP_VERSION
+          - echo $APP_VERSION
           - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
           - docker build 
             -t agiannellah/ah-api:latest
-            -t agiannellah/ah-api:'$APP_VERSION'
+            -t agiannellah/ah-api:$APP_VERSION
             -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
           - docker push agiannellah/ah-api:latest
           - docker push agiannellah/ah-api:$APP_VERSION
