@@ -11,8 +11,7 @@ pipelines:
         name: build and push
         script:
           - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-          - export VERSION="$(yarn run version)"
-          - export APP_VERSION="v$VERSION"
+          - export APP_VERSION="$(npm run version --silent)"
           - echo $APP_VERSION
           - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
           - docker build 
