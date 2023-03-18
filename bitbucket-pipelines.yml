@@ -42,6 +42,8 @@ pipelines:
                 COMMAND: |
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   docker pull agiannellah/ah-api:latest
+                  docker stop amplify-hope-api
+                  docker rm amplify-hope-api
                   docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 agiannellah/ah-api:latest
     main:
       - step:
@@ -55,7 +57,6 @@ pipelines:
                 COMMAND: |
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   docker pull agiannellah/ah-api:latest
-                  docker run 
-                    --name amplify-hope-api 
-                    --env-file ~/.env/.ah-api.env 
-                    -p 3002:3002 agiannellah/ah-api:latest
+                  docker stop amplify-hope-api
+                  docker rm amplify-hope-api
+                  docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 agiannellah/ah-api:latest
