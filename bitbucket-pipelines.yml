@@ -34,9 +34,9 @@ pipelines:
               SSH_USER: ubuntu
               SERVER: '44.230.137.242'
               COMMAND: |
-                cd proj;
-                cd amplify-hope-api;
-                ls
+                cd proj
+                cd amplify-hope-api
+                cat .nvmrc
   branches:
     develop:
       - step:
