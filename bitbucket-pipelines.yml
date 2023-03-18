@@ -8,12 +8,21 @@ pipelines:
           - yarn add -D ts-mocha
           - yarn test:unit
     - step:
-        name: build
+        name: build and push
         script:
-          - yarn add -D typescript
-          - yarn build
-        artifacts:
-          - build/**
+          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+          - export APP_VERSION="$(npm run version --silent)"
+          - echo $APP_VERSION
+          - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+          - docker build 
+            -t agiannellah/ah-api:latest
+            -t agiannellah/ah-api:$APP_VERSION
+            -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
+          - docker push agiannellah/ah-api:latest
+          - docker push agiannellah/ah-api:$APP_VERSION
+          - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
+        services:
+          - docker
     - step:
         name: snyk
         script:
@@ -21,3 +30,35 @@ pipelines:
             variables:
               SNYK_TOKEN: $SNYK_TOKEN
               LANGUAGE: npm
+  branches:
+    develop:
+      - step:
+          name: deploy-staging
+          script:
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_STAGE
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-api:latest
+                  docker run 
+                    --name amplify-hope-api 
+                    --env-file ~/.env/.ah-api.env 
+                    -p 3002:3002 agiannellah/ah-api:latest
+    main:
+      - step:
+          name: deploy-production
+          trigger: manual
+          script:
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_PROD
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-api:latest
+                  docker run 
+                    --name amplify-hope-api 
+                    --env-file ~/.env/.ah-api.env 
+                    -p 3002:3002 agiannellah/ah-api:latest
