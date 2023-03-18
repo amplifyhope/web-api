@@ -2,46 +2,44 @@ image: node:16-alpine
 
 pipelines:
   default:
-    # - step:
-    #     name: test
-    #     script:
-    #       - yarn add -D ts-mocha
-    #       - yarn test:unit
-    # - step:
-    #     name: build and push
-    #     script:
-    #       - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-    #       - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-    #       - docker build 
-    #         -t agiannellah/ah-api:latest
-    #         -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
-    #       - docker push agiannellah/ah-api:latest
-    #       - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
-    #     services:
-    #       - docker
-    # - step:
-    #     name: snyk
-    #     script:
-    #       - pipe: snyk/snyk-scan:0.5.3
-    #         variables:
-    #           SNYK_TOKEN: $SNYK_TOKEN
-    #           LANGUAGE: npm
     - step:
-        name: test-ssh
+        name: test
         script:
-          - pipe: atlassian/ssh-run:0.4.1
+          - yarn add -D ts-mocha
+          - yarn test:unit
+    - step:
+        name: build and push
+        script:
+          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+          - export APP_VERSION="${yarn version --silent}"
+          - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+          - docker build 
+            -t agiannellah/ah-api:latest
+            -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
+          - docker push agiannellah/ah-api:latest
+          - docker push agiannellah/ah-api:$APP_VERSION
+          - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
+        services:
+          - docker
+    - step:
+        name: snyk
+        script:
+          - pipe: snyk/snyk-scan:0.5.3
             variables:
-              SSH_USER: ubuntu
-              SERVER: '44.230.137.242'
-              COMMAND: |
-                cd proj
-                touch test.txt
+              SNYK_TOKEN: $SNYK_TOKEN
+              LANGUAGE: npm
   branches:
     develop:
       - step:
           name: deploy-staging
           script:
-            - echo "Deploying to stage"
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_STAGE
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-api:latest
     main:
       - step:
           name: deploy-production
