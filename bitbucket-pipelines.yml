@@ -42,9 +42,23 @@ pipelines:
                 COMMAND: |
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   docker pull agiannellah/ah-api:latest
+                  docker run 
+                    --name amplify-hope-api 
+                    --env-file ~/.env/.ah-api.env 
+                    -p 3002:3002 agiannellah/ah-api:latest
     main:
       - step:
           name: deploy-production
           trigger: manual
           script:
-            - echo "Deploying to production"
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_PROD
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-api:latest
+                  docker run 
+                    --name amplify-hope-api 
+                    --env-file ~/.env/.ah-api.env 
+                    -p 3002:3002 agiannellah/ah-api:latest
