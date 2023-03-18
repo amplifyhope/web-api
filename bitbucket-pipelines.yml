@@ -29,9 +29,11 @@ pipelines:
     - step:
         name: test-ssh
         script:
-          - ssh -i $BITBUCKET_SSH_KEY_FILE ubuntu@44.230.137.242
-          - ls
-          - echo done
+          - pipe: atlassian/ssh-run:0.4.1
+            variables:
+              SSH_USER: 'ubuntu'
+              SERVER: '44.230.137.242'
+              COMMAND: 'echo $HOSTNAME'
   branches:
     develop:
       - step:
