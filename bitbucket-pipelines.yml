@@ -31,9 +31,9 @@ pipelines:
         script:
           - pipe: atlassian/ssh-run:0.4.1
             variables:
-              SSH_USER: 'ubuntu'
+              SSH_USER: ubuntu
               SERVER: '44.230.137.242'
-              COMMAND: 'echo $HOSTNAME'
+              COMMAND: echo $HOSTNAME
   branches:
     develop:
       - step:
