@@ -43,7 +43,9 @@ pipelines:
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   docker pull agiannellah/ah-api:latest
                   docker stop amplify-hope-api
+                  echo "amplify-hope-api container stopped"
                   docker rm amplify-hope-api
+                  echo "amplify-hope-api container removed"
                   docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest
     main:
       - step:
@@ -58,5 +60,7 @@ pipelines:
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   docker pull agiannellah/ah-api:latest
                   docker stop amplify-hope-api
+                  echo "amplify-hope-api container stopped"
                   docker rm amplify-hope-api
+                  echo "amplify-hope-api container removed"
                   docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest
