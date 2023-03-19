@@ -44,7 +44,7 @@ pipelines:
                   docker pull agiannellah/ah-api:latest
                   docker stop amplify-hope-api
                   docker rm amplify-hope-api
-                  docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 agiannellah/ah-api:latest
+                  docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest
     main:
       - step:
           name: deploy-production
@@ -59,4 +59,4 @@ pipelines:
                   docker pull agiannellah/ah-api:latest
                   docker stop amplify-hope-api
                   docker rm amplify-hope-api
-                  docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 agiannellah/ah-api:latest
+                  docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest
