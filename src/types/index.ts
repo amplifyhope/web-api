@@ -17,7 +17,7 @@ export enum FundOptions {
 
 export type DBConfig = {
   user: string
-  password: string
+  password?: string
   host: string
   port: number
   database: string
@@ -68,4 +68,13 @@ export type RequestLogInput = {
   method: string
   statusCode: number
   status: string
+}
+
+export type UpsertProductInput = {
+  name: string
+  description?: string | null
+  stripeProductId: string
+  createdAt: string
+  updatedAt: string
+  isActive: boolean
 }
