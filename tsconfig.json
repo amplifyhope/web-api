@@ -7,24 +7,23 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
-    "lib": ["ES2020"],
+    "lib": ["ESNext"],
     "module": "CommonJS",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "build",
     "paths": {
       "*": ["*"]
     },
     "resolveJsonModule": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
-    "target": "ES2019"
+    "target": "esnext"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
