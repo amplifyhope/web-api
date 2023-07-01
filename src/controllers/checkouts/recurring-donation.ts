@@ -18,7 +18,7 @@ export const recurringDonationCheckout = async (
     let product: string | undefined
     let intervalCount = 1
 
-    const { amount, email, interval, fund }: DonationRequestBody = req.body
+    const { amount, email, interval, fund, notes }: DonationRequestBody = req.body
 
     if (fund === FundOptions.general)
       product = getConfig().StripeRecurringProductId
@@ -63,7 +63,7 @@ export const recurringDonationCheckout = async (
         customer: customer.data[0] ? customer.data[0].id : undefined,
         customer_email: !customer.data[0] ? email : undefined,
         mode: 'subscription',
-        line_items: [{ price: price.id, quantity: 1 }],
+        line_items: [{ price: price.id, quantity: 1, description: notes }],
         billing_address_collection: 'required',
         metadata: {
           fund
