@@ -3,6 +3,7 @@
 ## v1.5.0
 
 - Removed Hope40
+- Added product mapping webhook
 
 ## v1.4.0
 
