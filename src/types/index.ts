@@ -3,6 +3,7 @@ export type DonationRequestBody = {
   amount: number
   interval?: IntervalOptions
   fund: FundOptions
+  notes?: string
 }
 
 export enum IntervalOptions {

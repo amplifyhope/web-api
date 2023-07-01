@@ -11,7 +11,7 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
     typescript: true
   })
 
-  const { amount, email, fund }: DonationRequestBody = req.body
+  const { amount, email, fund, notes }: DonationRequestBody = req.body
 
   try {
     if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
@@ -27,11 +27,13 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
         {
           name: `Donate to Amplify Hope: ${fund}`,
           amount: formatAmountForStripe(amount, CURRENCY),
+          description: notes,
           currency: CURRENCY,
           quantity: 1
         }
       ],
       billing_address_collection: 'required',
+      
       metadata: {
         fund
       },
