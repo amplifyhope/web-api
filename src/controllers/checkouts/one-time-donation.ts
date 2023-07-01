@@ -1,18 +1,16 @@
-// import * as dotenv from 'dotenv'
-// dotenv.config()
-
 import { CURRENCY, MAX_AMOUNT, MIN_AMOUNT } from '../../config'
 import { DonationRequestBody } from '../../types'
 import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
 import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
-  typescript: true
-})
+import { getConfig } from '../../config/config'
 
 export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
+  const stripe = new Stripe(getConfig().stripeSecretKey, {
+    apiVersion: '2020-08-27',
+    typescript: true
+  })
+
   const { amount, email, fund }: DonationRequestBody = req.body
 
   try {

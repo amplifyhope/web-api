@@ -1,15 +1,20 @@
-import { Request, Response } from 'express'
 import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2020-08-27',
-  typescript: true
-})
-
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!
+import { Request, Response } from 'express'
+import { getConfig } from '../../config/config'
+import { upsertProduct } from '../../db'
+import { UpsertProductInput } from 'types'
+import { deleteProduct } from '../../db'
+import { convertUnixToIso } from '../../utils'
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
+  const stripe = new Stripe(getConfig().stripeSecretKey, {
+    apiVersion: '2020-08-27',
+    typescript: true
+  })
+
+  const webhookSecret: string = getConfig().stripeWebHookSecret
+
   if (req.method === 'POST') {
     const sig = req.headers['stripe-signature']!
     let event: Stripe.Event
@@ -29,6 +34,7 @@ export const stripeWebhooks = async (req: Request, res: Response) => {
     console.log(`✅ Success: ${event.id}`)
 
     let paymentIntent
+    let product
 
     switch (event.type) {
       case 'invoice.created':
@@ -51,6 +57,31 @@ export const stripeWebhooks = async (req: Request, res: Response) => {
       case 'charge.succeeded':
         const charge = event.data.object as Stripe.Charge
         console.log(`💵 Charge succeeded: ${charge.id}`)
+        break
+      case 'product.created':
+      case 'product.updated':
+        product = event.data.object as Stripe.Product
+        const upsertValues: UpsertProductInput = {
+          stripeProductId: product.id,
+          name: product.name,
+          description: product.description,
+          createdAt: convertUnixToIso(product.created),
+          updatedAt: convertUnixToIso(product.updated),
+          isActive: product.active
+        }
+
+        await upsertProduct(upsertValues)
+        console.log(
+          `🔄 Product: ${product.name}, id: ${product.id} synced to database`
+        )
+        break
+      case 'product.deleted':
+        product = event.data.object as Stripe.Product
+
+        await deleteProduct(product.id)
+        console.log(
+          `🗑 Product: ${product.name}, id: ${product.id} deleted from database`
+        )
         break
       default:
         console.log(`🤷‍♂️ Unhandled event type: ${event.type}`)

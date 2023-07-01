@@ -1,5 +1,11 @@
 # Amplify Hope API Release Notes
 
+## v1.5.0
+
+- Removed Hope40
+- Added product mapping webhook
+- Upgraded to Node.JS v18
+
 ## v1.4.0
 
 - Added tests and snyk to pipeline.
