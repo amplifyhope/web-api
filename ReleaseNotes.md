@@ -4,6 +4,7 @@
 
 - Removed Hope40
 - Added product mapping webhook
+- Upgraded to Node.JS v18
 
 ## v1.4.0
 
