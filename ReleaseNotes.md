@@ -1,5 +1,9 @@
 # Amplify Hope API Release Notes
 
+## v1.6.0
+
+- Added notes to donation request body
+
 ## v1.5.0
 
 - Removed Hope40
