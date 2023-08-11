@@ -1,6 +1,7 @@
 import express, { json, raw } from 'express'
 import cookieParser from 'cookie-parser'
 import {
+  createPortalSession,
   getCheckoutSessionById,
   oneTimeDonationCheckout,
   recurringDonationCheckout,
@@ -19,6 +20,7 @@ router.get('/health', (_req, res) => {
 router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)
 router.post('/checkouts/one-time', json(), oneTimeDonationCheckout)
 router.post('/checkouts/recurring', json(), recurringDonationCheckout)
+router.post('/create-portal-session', json(), createPortalSession)
 router.post(
   '/stripe-webhooks',
   raw({ type: 'application/json' }),

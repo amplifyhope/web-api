@@ -1,6 +1,6 @@
 {
   "name": "amplify-hope-api",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "NodeJS API backend for amplify hope website",
   "main": "src/index.ts",
   "author": "Anthony Giannell",
