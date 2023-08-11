@@ -27,7 +27,7 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
         {
           name: `Donate to Amplify Hope: ${fund}`,
           amount: formatAmountForStripe(amount, CURRENCY),
-          description: notes,
+          description: !notes ? ' ' : notes,
           currency: CURRENCY,
           quantity: 1
         }
@@ -40,6 +40,8 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
       success_url: `${req.headers.origin}/result/{CHECKOUT_SESSION_ID}`,
       cancel_url: req.headers.origin as string
     }
+
+    console.log(params)
 
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create(params)

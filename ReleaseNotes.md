@@ -1,5 +1,9 @@
 # Amplify Hope API Release Notes
 
+## v1.6.1
+
+- Fixed bug where donation wouldn't be processed without notes field
+
 ## v1.6.0
 
 - Added notes to donation request body
