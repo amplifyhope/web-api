@@ -41,8 +41,6 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
       cancel_url: req.headers.origin as string
     }
 
-    console.log(params)
-
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create(params)
     res.status(200).json(checkoutSession)
