@@ -6,6 +6,7 @@ stages:
 
 variables:
   NODE_CONTAINER: node:18-alpine
+  DOCKER_CONTAINER: docker:24.0.7
 
 test:unit:
   stage: test
@@ -29,9 +30,9 @@ test:snyk:
 
 build:
   stage: build
-  image: docker:24.0.7
+  image: ${DOCKER_CONTAINER}
   services:
-    - docker:24.0.7-dind
+    - ${DOCKER_CONTAINER}-dind
   before_script:
     - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
   script:
