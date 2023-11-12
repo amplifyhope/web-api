@@ -1,12 +1,3 @@
-default:
-  before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - chmod 400 "$EC2_SSH_KEY"
-    - ssh-add "$EC2_SSH_KEY"
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
 stages:
   - test
   - build
@@ -50,6 +41,19 @@ build:
       -t agiannellah/ah-api:${CI_COMMIT_SHORT_SHA} .
     - docker push agiannellah/ah-api:latest
     - docker push agiannellah/ah-api:${CI_COMMIT_SHORT_SHA}
+
+deploy:common:
+  stage: build
+  image: alpine
+  environment: staging
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$EC2_SSH_KEY" | tr -d '/r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - ssh ${EC2_USER}@${EC2_HOST} "cd ~; touch test.txt"
 
 deploy-staging:
   stage: deploy:staging
