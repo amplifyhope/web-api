@@ -46,6 +46,7 @@ deploy:common:
   stage: build
   image: alpine
   before_script:
+    - apk add openssh-client
     - mkdir ~/.ssh
     - echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
