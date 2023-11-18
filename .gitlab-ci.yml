@@ -54,7 +54,7 @@ deploy:common:
   script:
     - echo "user-${EC2_USER}"
     - echo "host-${EC2_HOST}"
-    - ssh -tt -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
     - touch test.txt
 
 deploy-staging:
