@@ -52,6 +52,7 @@ deploy:common:
     - chmod 600 ~/.ssh/id_ed25519
   script:
     - echo ${EC2_USER}
+    - echo ${EC2_HOST}
     - ssh -tt -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
     - touch test.txt
 
