@@ -51,7 +51,9 @@ deploy:common:
     - echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
   script:
+    - echo ${EC2_USER}
     - ssh -tt -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
+    - touch test.txt
 
 deploy-staging:
   stage: deploy:staging
