@@ -45,14 +45,15 @@ variables:
 deploy:common:
   stage: build
   image: alpine
+  environment: staging
   before_script:
     - apk add openssh-client
     - mkdir ~/.ssh
     - echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
   script:
-    - echo ${EC2_USER}
-    - echo ${EC2_HOST}
+    - echo "user-${EC2_USER}"
+    - echo "host-${EC2_HOST}"
     - ssh -tt -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
     - touch test.txt
 
