@@ -44,16 +44,12 @@ build:
 
 deploy:common:
   stage: build
-  image: alpine
-  environment: staging
   before_script:
-    - apk add openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$EC2_SSH_KEY" | tr -d '/r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
+    - mkdir ~/.ssh
+    - echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
   script:
-    - ssh ${EC2_USER}@${EC2_HOST} "cd ~; touch test.txt"
+    - ssh -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
 
 deploy-staging:
   stage: deploy:staging
