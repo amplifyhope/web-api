@@ -44,9 +44,7 @@ build:
 
 deploy:staging:
   stage: deploy:staging
-  image: ${DOCKER_CONTAINER}
-  services: 
-    - ${DOCKER_CONTAINER}-dind
+  image: alpine:latest
   environment: staging
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
@@ -57,6 +55,7 @@ deploy:staging:
     - ssh-keyscan $EC2_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - ssh $EC2_USER@$EC2_HOST
     - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
     - docker pull agiannellah/ah-api:latest
     - docker stop amplify-hope-api
@@ -78,6 +77,7 @@ deploy:production:
     - ssh-keyscan $EC2_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - ssh $EC2_USER@$EC2_HOST
     - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
     - docker pull agiannellah/ah-api:latest
     - docker stop amplify-hope-api
