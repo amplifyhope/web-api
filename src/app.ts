@@ -4,8 +4,6 @@ dotenv.config()
 import express from 'express'
 import cors, { CorsOptions } from 'cors'
 import routes from './routes'
-import { requestLogMiddleware } from './middleware/request-log-middleware'
-import { asyncHandler } from './utils/async-handler'
 
 process.on('SIGTERM', () => process.exit(0))
 process.on('SIGINT', () => process.exit(0))
@@ -22,6 +20,5 @@ const corsOptions: CorsOptions = {
   ]
 }
 
-app.use(asyncHandler(requestLogMiddleware))
 app.use(cors(corsOptions))
 app.use(routes)
