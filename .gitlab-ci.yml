@@ -56,20 +56,22 @@ deploy:common:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $EC2_USER@$EC2_HOST "hostname && echo 'Welcome!!!' > welcome.txt"
+    - ssh $EC2_USER@$EC2_HOST "hostname && echo 'Welcome second!!!' > welcome2.txt"
+    - ssh $EC2_USER@$EC2_HOST "hostname && echo 'Welcome third!!!' > welcome3.txt"
 
-deploy-staging:
-  stage: deploy:staging
-  environment:
-    name: staging
-  script:
-    - echo "Deploying to staging..."
-    - echo "Successfully deployed to staging"
+# deploy-staging:
+#   stage: deploy:staging
+#   environment:
+#     name: staging
+#   script:
+#     - echo "Deploying to staging..."
+#     - echo "Successfully deployed to staging"
 
-deploy-production:
-  stage: deploy:production
-  environment:
-    name: production
-  when: manual
-  script:
-    - echo "Deploying to production..."
-    - echo "Successfully deployed to production"
+# deploy-production:
+#   stage: deploy:production
+#   environment:
+#     name: production
+#   when: manual
+#   script:
+#     - echo "Deploying to production..."
+#     - echo "Successfully deployed to production"
