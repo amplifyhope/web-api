@@ -44,18 +44,18 @@ variables:
 
 deploy:common:
   stage: build
-  image: alpine
+  image: alpine:latest
   environment: staging
   before_script:
-    - apk add openssh-client
-    - mkdir ~/.ssh
-    - echo "$EC2_SSH_KEY" > ~/.ssh/id_ed25519
-    - chmod 600 ~/.ssh/id_ed25519
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$EC2_SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $EC2_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    - |
-      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${EC2_USER}@${EC2_HOST}
-      pwd
-      touch test.txt
+    - ssh $EC2_USER@$EC2_HOST "hostname && echo 'Welcome!!!' > welcome.txt"
 
 deploy-staging:
   stage: deploy:staging
