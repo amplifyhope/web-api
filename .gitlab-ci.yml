@@ -56,16 +56,13 @@ deploy:staging:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh $EC2_USER@$EC2_HOST "
-      hostname && echo 'Welcome!!!' > welcome.txt;
-      hostname && echo 'Welcome!!!' > welcome2.txt;
-      hostname && echo 'Welcome!!!' > welcome3.txt;"
-    # - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-    # - docker pull agiannellah/ah-api:latest
-    # - docker stop amplify-hope-api
-    # - echo "amplify-hope-api container stopped"
-    # - docker rm amplify-hope-api
-    # - echo "amplify-hope-api container removed"
-    # - docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest
+      echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin;
+      docker pull agiannellah/ah-api:latest;
+      docker stop amplify-hope-api;
+      echo 'amplify-hope-api container stopped'
+      docker rm amplify-hope-api"
+      echo 'amplify-hope-api container removed'
+      docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest"
 
 # deploy:production:
 #   stage: deploy:production
