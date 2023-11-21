@@ -45,7 +45,8 @@ build:
 deploy:staging:
   stage: deploy:staging
   image: ${DOCKER_CONTAINER}
-  services: ${DOCKER_CONTAINER}-dind
+  services: 
+    - ${DOCKER_CONTAINER}-dind
   environment: staging
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
