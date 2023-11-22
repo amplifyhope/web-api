@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import Stripe from 'stripe'
-import config from '../../config/config'
+import { getConfig } from '../../config/config'
 
 export const getCheckoutSessionById = async (req: Request, res: Response) => {
-  const stripe = new Stripe(config.stripeSecretKey!, {
+  const stripe = new Stripe(getConfig().stripeSecretKey, {
     apiVersion: '2020-08-27',
     typescript: true
   })
