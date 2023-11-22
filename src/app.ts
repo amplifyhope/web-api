@@ -4,19 +4,17 @@ dotenv.config()
 import * as Sentry from '@sentry/node'
 import { ProfilingIntegration } from '@sentry/profiling-node'
 import express from 'express'
-import { getConfig } from 'config'
 import cors, { CorsOptions } from 'cors'
 import routes from './routes'
 
 process.on('SIGTERM', () => process.exit(0))
 process.on('SIGINT', () => process.exit(0))
-const config = getConfig()
 
 export const app = express()
 
 Sentry.init({
-  dsn: config.sentryDsn,
-  environment: config.environment,
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV,
   integrations: [
     new Sentry.Integrations.Http({ tracing: true }),
     new Sentry.Integrations.Express({ app }),
