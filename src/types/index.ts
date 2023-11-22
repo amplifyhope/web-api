@@ -27,7 +27,8 @@ export type DBConfig = {
 export type Config = {
   db: DBConfig
   port: number
-  nodeEnv: string
+  environment: string
+  sentryDsn: string
   stripeSecretKey: string
   stripeWebHookSecret: string
   StripeRecurringProductId: string
