@@ -41,6 +41,8 @@ build:
       -t agiannellah/ah-api:${CI_COMMIT_SHORT_SHA} .
     - docker push agiannellah/ah-api:latest
     - docker push agiannellah/ah-api:${CI_COMMIT_SHORT_SHA}
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 deploy:staging:
   stage: deploy:staging
@@ -63,6 +65,8 @@ deploy:staging:
       docker rm amplify-hope-api;
       echo 'amplify-hope-api container removed';
       docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest;"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 deploy:production:
   stage: deploy:production
@@ -86,3 +90,5 @@ deploy:production:
       docker rm amplify-hope-api;
       echo 'amplify-hope-api container removed';
       docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest;"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
