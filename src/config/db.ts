@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import camelcaseKeys from 'camelcase-keys'
 import snakecase from 'snakecase-keys'
 import { Pool, QueryConfig, QueryResultRow } from 'pg'
-import config from './config'
+import { getConfig } from './config'
 import { DeleteQueryConfig, UpsertQueryConfig } from 'types'
 
 type CustomPool = {
@@ -31,6 +31,8 @@ let pool: CustomPool
 
 export const getPool = () => {
   if (!pool) {
+    const config = getConfig()
+
     const pgPool = new Pool(config.db)
     pool = buildCustomPool(pgPool)
   }

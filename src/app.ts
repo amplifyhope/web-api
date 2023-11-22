@@ -4,12 +4,13 @@ dotenv.config()
 import * as Sentry from '@sentry/node'
 import { ProfilingIntegration } from '@sentry/profiling-node'
 import express from 'express'
-import config from './config/config'
+import { getConfig } from 'config'
 import cors, { CorsOptions } from 'cors'
 import routes from './routes'
 
 process.on('SIGTERM', () => process.exit(0))
 process.on('SIGINT', () => process.exit(0))
+const config = getConfig()
 
 export const app = express()
 
