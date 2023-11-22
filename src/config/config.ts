@@ -25,7 +25,8 @@ export const getConfig = (): Config => {
         database: c.getStr([{ source: 'env', path: 'DBDATABASE' }])
       },
       port: c.getNum([{ source: 'env', path: 'PORT' }]),
-      nodeEnv: c.getStr([{ source: 'env', path: 'NODE_ENV' }]),
+      environment: c.getStr([{ source: 'env', path: 'NODE_ENV' }]),
+      sentryDsn: c.getStr([{ source: 'env', path: 'SENTRY_DSN' }]),
       stripeSecretKey: c.getStr([{ source: 'env', path: 'STRIPE_SECRET_KEY' }]),
       stripeWebHookSecret: c.getStr([
         { source: 'env', path: 'STRIPE_WEBHOOK_SECRET' }
