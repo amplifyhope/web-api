@@ -16,6 +16,10 @@ router.get('/health', (_req, res) => {
   })
 })
 
+router.get('/debug-sentry', (_req, _res) => {
+  throw new Error("Sentry Error")
+})
+
 router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)
 router.post('/checkouts/one-time', json(), oneTimeDonationCheckout)
 router.post('/checkouts/recurring', json(), recurringDonationCheckout)
