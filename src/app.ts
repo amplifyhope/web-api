@@ -19,7 +19,9 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true }),
     new Sentry.Integrations.Express({ app }),
     new ProfilingIntegration()
-  ]
+  ],
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0
 })
 
 const corsOptions: CorsOptions = {
