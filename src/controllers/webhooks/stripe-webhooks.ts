@@ -9,7 +9,7 @@ import { convertUnixToIso } from '../../utils'
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
   const stripe = new Stripe(getConfig().stripeSecretKey, {
-    apiVersion: '2020-08-27',
+    apiVersion: '2023-10-16',
     typescript: true
   })
 

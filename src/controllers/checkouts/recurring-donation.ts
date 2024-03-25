@@ -10,7 +10,7 @@ export const recurringDonationCheckout = async (
   res: Response
 ) => {
   const stripe = new Stripe(getConfig().stripeSecretKey, {
-    apiVersion: '2020-08-27',
+    apiVersion: '2023-10-16',
     typescript: true
   })
 
@@ -18,7 +18,8 @@ export const recurringDonationCheckout = async (
     let product: string | undefined
     let intervalCount = 1
 
-    const { amount, email, interval, fund, notes }: DonationRequestBody = req.body
+    const { amount, email, interval, fund, notes }: DonationRequestBody =
+      req.body
 
     if (fund === FundOptions.general)
       product = getConfig().StripeRecurringProductId
@@ -60,16 +61,16 @@ export const recurringDonationCheckout = async (
 
       const customer = await stripe.customers.list({ email })
       const sessionParams: Stripe.Checkout.SessionCreateParams = {
+        ui_mode: 'embedded',
         customer: customer.data[0] ? customer.data[0].id : undefined,
         customer_email: !customer.data[0] ? email : undefined,
         mode: 'subscription',
-        line_items: [{ price: price.id, quantity: 1, description: notes }],
+        line_items: [{ price: price.id, quantity: 1 }],
         billing_address_collection: 'required',
-        metadata: {
-          fund
-        },
-        success_url: `${req.headers.origin}/result/{CHECKOUT_SESSION_ID}`,
-        cancel_url: req.headers.origin as string
+        metadata: { fund, notes: notes ?? '' },
+        return_url: `${
+          req.headers.origin ?? 'http://localhost:3002'
+        }/result/{CHECKOUT_SESSION_ID}`
       }
 
       const checkoutSession = await stripe.checkout.sessions.create(
