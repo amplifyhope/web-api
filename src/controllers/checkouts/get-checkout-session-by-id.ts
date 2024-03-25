@@ -4,7 +4,8 @@ import { getConfig } from '../../config/config'
 
 export const getCheckoutSessionById = async (req: Request, res: Response) => {
   const stripe = new Stripe(getConfig().stripeSecretKey, {
-    apiVersion: '2020-08-27',
+    /* @ts-ignore */
+    apiVersion: '2023-10-16',
     typescript: true
   })
 

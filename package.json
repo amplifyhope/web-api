@@ -33,7 +33,7 @@
     "pg": "^8.9.0",
     "ramda": "^0.28.0",
     "snakecase-keys": "^5.4.5",
-    "stripe": "^8.201.0",
+    "stripe": "^14.22.0",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
