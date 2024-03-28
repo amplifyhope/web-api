@@ -4,7 +4,7 @@ import { getConfig } from '../../config/config'
 
 export const createPortalSession = async (req: Request, res: Response) => {
   const stripe = new Stripe(getConfig().stripeSecretKey, {
-    apiVersion: '2020-08-27',
+    apiVersion: '2023-10-16',
     typescript: true
   })
 
