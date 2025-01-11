@@ -1,9 +1,9 @@
 import Stripe from 'stripe'
 import { Request, Response } from 'express'
-import { getConfig } from '../../config/config'
+import config from '../../config/config'
 
 export const createPortalSession = async (req: Request, res: Response) => {
-  const stripe = new Stripe(getConfig().stripeSecretKey, {
+  const stripe = new Stripe(config.stripeSecretKey, {
     apiVersion: '2023-10-16',
     typescript: true
   })
@@ -15,7 +15,7 @@ export const createPortalSession = async (req: Request, res: Response) => {
 
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.data[0].id,
-      return_url: req.headers.origin ?? 'http://localhost:3002'
+      return_url: req.headers.origin ?? 'http://localhost:3000'
     })
 
     res.status(200).json(session)

@@ -1,41 +1,18 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { configUtil } from './config-util'
-import { Config } from 'types'
-
-const e = process.env
-
-let config: Config
-const c = configUtil()
-
-export const initConfig = async () => {
-  c.addSource({ name: 'env', data: e })
-  c.ready()
-}
-
-export const getConfig = (): Config => {
-  if (config == null) {
-    config = {
-      db: {
-        user: c.getStr([{ source: 'env', path: 'DBUSER' }]),
-        password: c.getStr([{ source: 'env', path: 'DBPASSWORD' }]),
-        host: c.getStr([{ source: 'env', path: 'DBHOST' }]),
-        port: c.getNum([{ source: 'env', path: 'DBPORT' }]),
-        database: c.getStr([{ source: 'env', path: 'DBDATABASE' }])
-      },
-      port: c.getNum([{ source: 'env', path: 'PORT' }]),
-      environment: c.getStr([{ source: 'env', path: 'NODE_ENV' }]),
-      sentryDsn: c.getStr([{ source: 'env', path: 'SENTRY_DSN' }]),
-      stripeSecretKey: c.getStr([{ source: 'env', path: 'STRIPE_SECRET_KEY' }]),
-      stripeWebHookSecret: c.getStr([
-        { source: 'env', path: 'STRIPE_WEBHOOK_SECRET' }
-      ]),
-      StripeRecurringProductId: c.getStr([
-        { source: 'env', path: 'STRIPE_RECURRING_PRODUCT_ID' }
-      ])
-    }
-  }
-
-  return config
+export default {
+  db: {
+    user: process.env.DBUSER,
+    password: process.env.DBPASSWORD,
+    host: process.env.DBHOST,
+    port: Number(process.env.DBPORT),
+    database: process.env.DBDATABASE
+  },
+  port: Number(process.env.PORT),
+  environment: process.env.NODE_ENV,
+  sentryDsn: process.env.SENTRY_DSN,
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  stripeWebHookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  StripeRecurringProductId: process.env.STRIPE_RECURRING_PRODUCT_ID
 }

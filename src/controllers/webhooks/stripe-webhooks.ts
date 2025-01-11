@@ -1,19 +1,19 @@
 import Stripe from 'stripe'
 import { Request, Response } from 'express'
-import { getConfig } from '../../config/config'
+import config from '../../config/config'
 import { upsertProduct } from '../../db'
-import { UpsertProductInput } from 'types'
+import { UpsertProductInput } from '../../types'
 import { deleteProduct } from '../../db'
 import { convertUnixToIso } from '../../utils'
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
-  const stripe = new Stripe(getConfig().stripeSecretKey, {
+  const stripe = new Stripe(config.stripeSecretKey, {
     apiVersion: '2023-10-16',
     typescript: true
   })
 
-  const webhookSecret: string = getConfig().stripeWebHookSecret
+  const webhookSecret: string = config.stripeWebHookSecret
 
   if (req.method === 'POST') {
     const sig = req.headers['stripe-signature']!

@@ -3,10 +3,10 @@ import { DonationRequestBody } from '../../types'
 import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
 import Stripe from 'stripe'
-import { getConfig } from '../../config/config'
+import config from '../../config/config'
 
 export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
-  const stripe = new Stripe(getConfig().stripeSecretKey, {
+  const stripe = new Stripe(config.stripeSecretKey, {
     apiVersion: '2023-10-16',
     typescript: true
   })
@@ -43,7 +43,7 @@ export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
         fund
       },
       return_url: `${
-        req.headers.origin ?? 'http://localhost:3002'
+        req.headers.origin ?? 'http://localhost:3000'
       }/result/{CHECKOUT_SESSION_ID}`
     }
 

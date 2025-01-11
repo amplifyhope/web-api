@@ -1,4 +1,4 @@
-import { RequestLogInput } from 'types'
+import { RequestLogInput } from '../types'
 import { getPool, buildUpsertQuery } from '../config/db'
 
 export const insertRequestLog = async (values: RequestLogInput) => {

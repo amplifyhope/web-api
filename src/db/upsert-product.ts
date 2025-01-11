@@ -1,4 +1,4 @@
-import { UpsertProductInput } from 'types'
+import { UpsertProductInput } from '../types'
 import { getPool, buildUpsertQuery } from '../config/db'
 
 export const upsertProduct = async (values: UpsertProductInput) => {

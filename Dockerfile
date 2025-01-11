@@ -1,11 +1,11 @@
-FROM node:18-alpine as deps
+FROM node:20-alpine as deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json yarn.lock* ./
 RUN yarn
 
-FROM node:18-alpine as runner
+FROM node:20-alpine as runner
 WORKDIR /app
 
 ENV NODE_ENV production

@@ -3,13 +3,13 @@ import Stripe from 'stripe'
 import { DonationRequestBody, FundOptions, IntervalOptions } from '../../types'
 import { formatAmountForStripe } from '../../utils/stripe-helpers'
 import { Request, Response } from 'express'
-import { getConfig } from '../../config/config'
+import config from '../../config/config'
 
 export const recurringDonationCheckout = async (
   req: Request,
   res: Response
 ) => {
-  const stripe = new Stripe(getConfig().stripeSecretKey, {
+  const stripe = new Stripe(config.stripeSecretKey, {
     apiVersion: '2023-10-16',
     typescript: true
   })
@@ -22,7 +22,7 @@ export const recurringDonationCheckout = async (
       req.body
 
     if (fund === FundOptions.general)
-      product = getConfig().StripeRecurringProductId
+      product = config.StripeRecurringProductId
     if (interval === IntervalOptions.quarter) intervalCount = 3
 
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)
@@ -69,7 +69,7 @@ export const recurringDonationCheckout = async (
         billing_address_collection: 'required',
         metadata: { fund, notes: notes ?? '' },
         return_url: `${
-          req.headers.origin ?? 'http://localhost:3002'
+          req.headers.origin ?? 'http://localhost:3000'
         }/result/{CHECKOUT_SESSION_ID}`
       }
 
