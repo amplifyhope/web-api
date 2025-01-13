@@ -30,7 +30,8 @@ const corsOptions: CorsOptions = {
     'https://www.amplifyhope.cc',
     'https://stage.amplifyhope.cc',
     'http://dev.amplifyhope.cc:3000',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://billing.stripe.com'
   ]
 }
 

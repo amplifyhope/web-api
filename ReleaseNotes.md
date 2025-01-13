@@ -1,5 +1,9 @@
 # Amplify Hope API Release Notes
 
+## v1.7.0
+
+- Added link to manage giving
+
 ## v1.6.0
 
 - Added notes to donation request body
