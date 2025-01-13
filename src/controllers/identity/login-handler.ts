@@ -36,7 +36,7 @@ export const loginHandler = async (req: Request, res: Response) => {
   
   try {
     await sendMagicLink(email, token)
-    return res.status(200).redirect(`${config.clientBaseUrl}/auth/verify`)
+    return res.sendStatus(204)
   } catch (error) {
     console.error('There was an error sending the magic link: ', error.message)
     res.sendStatus(500)
