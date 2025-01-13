@@ -35,7 +35,7 @@ export const verifyMagicLink = async (
     if (donor && !donor.deleted) {
       const session = await stripe.billingPortal.sessions.create({
         customer: donor.id,
-        return_url: req.headers.origin ?? 'http://localhost:3000'
+        return_url: config.clientBaseUrl
       })
 
       res.redirect(session.url)
