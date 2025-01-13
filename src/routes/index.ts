@@ -1,5 +1,5 @@
-import express, { json, raw } from 'express'
 import cookieParser from 'cookie-parser'
+import express, { json, raw } from 'express'
 import {
   createPortalSession,
   getCheckoutSessionById,
@@ -7,6 +7,8 @@ import {
   recurringDonationCheckout,
   stripeWebhooks
 } from '../controllers'
+import { loginHandler } from '../controllers/identity/login-handler'
+import { verifyMagicLink } from '../controllers/identity/verify-magic-link'
 
 const router = express.Router()
 router.use(cookieParser())
@@ -30,5 +32,8 @@ router.post(
   raw({ type: 'application/json' }),
   stripeWebhooks
 )
+
+router.post('/login', json(), loginHandler)
+router.get('/verify', json(), verifyMagicLink)
 
 export default router
