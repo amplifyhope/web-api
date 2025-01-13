@@ -8,12 +8,12 @@ import { convertUnixToIso } from '../../utils'
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
-  const stripe = new Stripe(config.stripeSecretKey, {
+  const stripe = new Stripe(config.stripe.secretKey, {
     apiVersion: '2023-10-16',
     typescript: true
   })
 
-  const webhookSecret: string = config.stripeWebHookSecret
+  const webhookSecret: string = config.stripe.webHookSecret
 
   if (req.method === 'POST') {
     const sig = req.headers['stripe-signature']!
