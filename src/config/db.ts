@@ -31,7 +31,6 @@ let pool: CustomPool
 
 export const getPool = () => {
   if (!pool) {
-
     const pgPool = new Pool(config.db)
     pool = buildCustomPool(pgPool)
   }

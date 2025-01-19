@@ -21,8 +21,7 @@ export const recurringDonationCheckout = async (
     const { amount, email, interval, fund, notes }: DonationRequestBody =
       req.body
 
-    if (fund === FundOptions.general)
-      product = config.stripe.recurringProductId
+    if (fund === FundOptions.general) product = config.stripe.recurringProductId
     if (interval === IntervalOptions.quarter) intervalCount = 3
 
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)

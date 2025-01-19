@@ -36,8 +36,8 @@ build:
   before_script:
     - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
   script:
-    - docker build 
-      -t agiannellah/ah-api:latest 
+    - docker build
+      -t agiannellah/ah-api:latest
       -t agiannellah/ah-api:${CI_COMMIT_SHORT_SHA} .
     - docker push agiannellah/ah-api:latest
     - docker push agiannellah/ah-api:${CI_COMMIT_SHORT_SHA}

@@ -20,7 +20,7 @@ router.get('/health', (_req, res) => {
 })
 
 router.get('/debug-sentry', (_req, _res) => {
-  throw new Error("Sentry Error")
+  throw new Error('Sentry Error')
 })
 
 router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)

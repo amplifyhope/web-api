@@ -18,7 +18,7 @@ export default {
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY,
     webHookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-    recurringProductId: process.env.STRIPE_RECURRING_PRODUCT_ID,
+    recurringProductId: process.env.STRIPE_RECURRING_PRODUCT_ID
   },
   sendGrid: {
     email: 'info@amplifyhope.cc',

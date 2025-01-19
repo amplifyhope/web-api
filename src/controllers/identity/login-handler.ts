@@ -25,15 +25,18 @@ export const loginHandler = async (req: Request, res: Response) => {
   try {
     customer = await stripe.customers.list({ email })
   } catch (error) {
-    console.error('There was an error fetching the user from stripe: ', error.message)
-    res.json({ message: 'There was a problem, please try again later.' }) 
+    console.error(
+      'There was an error fetching the user from stripe: ',
+      error.message
+    )
+    res.json({ message: 'There was a problem, please try again later.' })
   }
 
   if (!customer.data[0]) return res.sendStatus(404)
 
   jwtSignPayload = { stripeCustomerId: customer.data[0].id, email }
   const token = jwt.sign(jwtSignPayload, config.jwtSecret, { expiresIn: '10m' })
-  
+
   try {
     await sendMagicLink(email, token)
     return res.sendStatus(204)

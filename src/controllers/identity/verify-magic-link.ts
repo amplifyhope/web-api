@@ -6,7 +6,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 interface MagicLinkJwtPayload extends JwtPayload {
   stripeCustomerId?: string
   email?: string
-  
 }
 
 type VerifyRequestQuery = {
