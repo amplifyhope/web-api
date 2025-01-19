@@ -8,10 +8,7 @@ import { convertUnixToIso } from '../../utils'
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 export const stripeWebhooks = async (req: Request, res: Response) => {
-  const stripe = new Stripe(config.stripe.secretKey, {
-    apiVersion: '2023-10-16',
-    typescript: true
-  })
+  const stripe = new Stripe(config.stripe.secretKey, { typescript: true })
 
   const webhookSecret: string = config.stripe.webHookSecret
 
@@ -33,35 +30,38 @@ export const stripeWebhooks = async (req: Request, res: Response) => {
 
     console.log(`✅ Success: ${event.id}`)
 
-    let paymentIntent
-    let product
+    let charge: Stripe.Charge
+    let invoice: Stripe.Invoice
+    let paymentIntent: Stripe.PaymentIntent
+    let product: Stripe.Product
+    let upsertValues: UpsertProductInput
 
     switch (event.type) {
       case 'invoice.created':
-        const invoice = event.data.object as Stripe.Invoice
+        invoice = event.data.object
         console.log(`🚀 Invoice created because: ${invoice.billing_reason}`)
         if (invoice.billing_reason !== 'subscription_create') {
           await stripe.invoices.finalizeInvoice(invoice.id)
         }
         break
       case 'payment_intent.succeeded':
-        paymentIntent = event.data.object as Stripe.PaymentIntent
+        paymentIntent = event.data.object
         console.log(`💸 Payment Intent Status: ${paymentIntent.status}`)
         break
       case 'payment_intent.payment_failed':
-        paymentIntent = event.data.object as Stripe.PaymentIntent
+        paymentIntent = event.data.object
         console.log(
           `⛔ Payment failed: ${paymentIntent.last_payment_error?.message}`
         )
         break
       case 'charge.succeeded':
-        const charge = event.data.object as Stripe.Charge
+        charge = event.data.object
         console.log(`💵 Charge succeeded: ${charge.id}`)
         break
       case 'product.created':
       case 'product.updated':
-        product = event.data.object as Stripe.Product
-        const upsertValues: UpsertProductInput = {
+        product = event.data.object
+        upsertValues = {
           stripeProductId: product.id,
           name: product.name,
           description: product.description,
@@ -76,7 +76,7 @@ export const stripeWebhooks = async (req: Request, res: Response) => {
         )
         break
       case 'product.deleted':
-        product = event.data.object as Stripe.Product
+        product = event.data.object
 
         await deleteProduct(product.id)
         console.log(

@@ -1,5 +1,9 @@
 # Amplify Hope API Release Notes
 
+## v1.7.1
+
+- Upgraded dependencies
+
 ## v1.7.0
 
 - Added link to manage giving

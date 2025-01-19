@@ -1,4 +1,3 @@
-import cookieParser from 'cookie-parser'
 import express, { json, raw } from 'express'
 import {
   createPortalSession,
@@ -11,7 +10,6 @@ import { loginHandler } from '../controllers/identity/login-handler'
 import { verifyMagicLink } from '../controllers/identity/verify-magic-link'
 
 const router = express.Router()
-router.use(cookieParser())
 
 router.get('/health', (_req, res) => {
   res.status(200).json({
@@ -19,8 +17,9 @@ router.get('/health', (_req, res) => {
   })
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.get('/debug-sentry', (_req, _res) => {
-  throw new Error("Sentry Error")
+  throw new Error('Sentry Error')
 })
 
 router.get('/checkout-sessions/:id', json(), getCheckoutSessionById)

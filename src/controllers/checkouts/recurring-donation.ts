@@ -9,10 +9,7 @@ export const recurringDonationCheckout = async (
   req: Request,
   res: Response
 ) => {
-  const stripe = new Stripe(config.stripe.secretKey, {
-    apiVersion: '2023-10-16',
-    typescript: true
-  })
+  const stripe = new Stripe(config.stripe.secretKey, { typescript: true })
 
   if (req.method === 'POST') {
     let product: string | undefined
@@ -21,8 +18,7 @@ export const recurringDonationCheckout = async (
     const { amount, email, interval, fund, notes }: DonationRequestBody =
       req.body
 
-    if (fund === FundOptions.general)
-      product = config.stripe.recurringProductId
+    if (fund === FundOptions.general) product = config.stripe.recurringProductId
     if (interval === IntervalOptions.quarter) intervalCount = 3
 
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)

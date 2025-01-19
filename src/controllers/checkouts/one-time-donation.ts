@@ -6,10 +6,7 @@ import Stripe from 'stripe'
 import config from '../../config/config'
 
 export const oneTimeDonationCheckout = async (req: Request, res: Response) => {
-  const stripe = new Stripe(config.stripe.secretKey, {
-    apiVersion: '2023-10-16',
-    typescript: true
-  })
+  const stripe = new Stripe(config.stripe.secretKey, { typescript: true })
 
   const { amount, email, fund, notes }: DonationRequestBody = req.body
 

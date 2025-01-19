@@ -6,7 +6,6 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 interface MagicLinkJwtPayload extends JwtPayload {
   stripeCustomerId?: string
   email?: string
-  
 }
 
 type VerifyRequestQuery = {
@@ -14,13 +13,10 @@ type VerifyRequestQuery = {
 }
 
 export const verifyMagicLink = async (
-  req: Request<{}, {}, {}, VerifyRequestQuery>,
+  req: Request<object, object, object, VerifyRequestQuery>,
   res: Response
 ) => {
-  const stripe = new Stripe(config.stripe.secretKey, {
-    apiVersion: '2023-10-16',
-    typescript: true
-  })
+  const stripe = new Stripe(config.stripe.secretKey, { typescript: true })
 
   const { token } = req.query
   if (!token) return res.sendStatus(401)

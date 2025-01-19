@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as R from 'ramda'
 import camelcaseKeys from 'camelcase-keys'
 import snakecase from 'snakecase-keys'
@@ -31,7 +32,6 @@ let pool: CustomPool
 
 export const getPool = () => {
   if (!pool) {
-
     const pgPool = new Pool(config.db)
     pool = buildCustomPool(pgPool)
   }
