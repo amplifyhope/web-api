@@ -17,6 +17,7 @@ router.get('/health', (_req, res) => {
   })
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.get('/debug-sentry', (_req, _res) => {
   throw new Error('Sentry Error')
 })

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as R from 'ramda'
 import camelcaseKeys from 'camelcase-keys'
 import snakecase from 'snakecase-keys'

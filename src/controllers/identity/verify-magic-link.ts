@@ -13,7 +13,7 @@ type VerifyRequestQuery = {
 }
 
 export const verifyMagicLink = async (
-  req: Request<{}, {}, {}, VerifyRequestQuery>,
+  req: Request<object, object, object, VerifyRequestQuery>,
   res: Response
 ) => {
   const stripe = new Stripe(config.stripe.secretKey, { typescript: true })

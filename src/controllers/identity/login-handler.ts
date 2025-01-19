@@ -17,7 +17,6 @@ export const loginHandler = async (req: Request, res: Response) => {
 
   const { email } = req.body
   let customer: Stripe.Response<Stripe.ApiList<Stripe.Customer>>
-  let jwtSignPayload: JwtSignPayload
 
   try {
     customer = await stripe.customers.list({ email })
@@ -31,7 +30,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 
   if (!customer.data[0]) return res.sendStatus(404)
 
-  jwtSignPayload = { stripeCustomerId: customer.data[0].id, email }
+  const jwtSignPayload: JwtSignPayload = { stripeCustomerId: customer.data[0].id, email }
   const token = jwt.sign(jwtSignPayload, config.jwtSecret, { expiresIn: '10m' })
 
   try {
