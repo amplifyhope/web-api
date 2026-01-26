@@ -20,10 +20,9 @@ export default {
     webHookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     recurringProductId: process.env.STRIPE_RECURRING_PRODUCT_ID
   },
-  sendGrid: {
-    email: 'info@amplifyhope.cc',
-    apiKey: process.env.SENDGRID_API_KEY,
-    secret: 'reeouryvbovkjfhbvkerli4hogeituvn',
-    magicLinkTemplateId: process.env.SENDGRID_MAGIC_LINK_TEMPLATE_ID
+  resend: {
+    email: 'no-reply@amplifyhope.cc',
+    templateId: process.env.RESEND_TEMPLATE_ID,
+    apiKey: process.env.RESEND_API_KEY
   }
 }
