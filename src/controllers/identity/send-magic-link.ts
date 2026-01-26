@@ -1,16 +1,20 @@
-import sendGrid, { MailDataRequired } from '@sendgrid/mail'
+import { Resend } from 'resend'
 import config from '../../config/config'
 
-export const sendMagicLink = async (email: string, token: string) => {
-  const magicLink = `${config.apiBaseUrl}/verify?token=${token}`
-  const message: MailDataRequired = {
-    to: email,
-    from: 'no-reply@amplifyhope.cc',
-    templateId: config.sendGrid.magicLinkTemplateId,
-    dynamicTemplateData: {
-      Weblink: magicLink
-    }
-  }
+const resend = new Resend(config.resend.apiKey)
 
-  await sendGrid.send(message)
+export const sendMagicLink = async (email: string, stripeCustomerId: string, token: string) => {
+  const magicLink = `${config.apiBaseUrl}/verify?token=${token}`
+
+  await resend.emails.send({
+    from: config.resend.email,
+    to: email,
+    template: {
+      id: config.resend.templateId,
+      variables: {
+        MAGIC_LINK: magicLink
+      }
+    },
+    tags: [{ name: 'environment', value: config.environment }, { name: 'stripe_customer_id', value: stripeCustomerId }]
+  })
 }

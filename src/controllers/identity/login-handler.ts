@@ -1,11 +1,8 @@
-import sendGrid from '@sendgrid/mail'
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import Stripe from 'stripe'
 import config from '../../config/config'
 import { sendMagicLink } from './send-magic-link'
-
-sendGrid.setApiKey(config.sendGrid.apiKey)
 
 type JwtSignPayload = {
   stripeCustomerId: string
@@ -30,11 +27,13 @@ export const loginHandler = async (req: Request, res: Response) => {
 
   if (!customer.data[0]) return res.sendStatus(404)
 
-  const jwtSignPayload: JwtSignPayload = { stripeCustomerId: customer.data[0].id, email }
+  const stripeCustomerId = customer.data[0].id
+
+  const jwtSignPayload: JwtSignPayload = { stripeCustomerId, email }
   const token = jwt.sign(jwtSignPayload, config.jwtSecret, { expiresIn: '10m' })
 
   try {
-    await sendMagicLink(email, token)
+    await sendMagicLink(email, stripeCustomerId, token)
     return res.sendStatus(204)
   } catch (error) {
     console.error('There was an error sending the magic link: ', error.message)
