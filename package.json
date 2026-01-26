@@ -17,7 +17,6 @@
     "version": "echo $npm_package_version"
   },
   "dependencies": {
-    "@sendgrid/mail": "^8.1.6",
     "@sentry/node": "^8.55.0",
     "@sentry/profiling-node": "^8.55.0",
     "camelcase-keys": "^7.0.2",
@@ -27,6 +26,7 @@
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3",
     "ramda": "^0.32.0",
+    "resend": "^6.8.0",
     "snakecase-keys": "^8.1.0",
     "stripe": "^17.7.0",
     "ts-node": "^10.9.2"
@@ -56,7 +56,7 @@
     "typescript-eslint": "^8.48.1"
   },
   "engines": {
-    "node": "22"
+    "node": ">=22"
   },
   "resolutions": {
     "brace-expansion": "^1.1.12",
