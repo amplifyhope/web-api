@@ -64,7 +64,8 @@ deploy:staging:
       echo 'amplify-hope-api container stopped';
       docker rm amplify-hope-api;
       echo 'amplify-hope-api container removed';
-      docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest;"
+      docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 --restart unless-stopped -d agiannellah/ah-api:latest;
+      docker image prune -af;"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
@@ -89,6 +90,7 @@ deploy:production:
       echo 'amplify-hope-api container stopped';
       docker rm amplify-hope-api;
       echo 'amplify-hope-api container removed';
-      docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 -d agiannellah/ah-api:latest;"
+      docker run --name amplify-hope-api --env-file ~/.env/.ah-api.env -p 3002:3002 --restart unless-stopped -d agiannellah/ah-api:latest;
+      docker image prune -af;"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
