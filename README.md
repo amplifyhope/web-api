@@ -1,81 +1,93 @@
 # Amplify Hope API
 
+Node.js/Express backend for the Amplify Hope donation platform. Handles Stripe checkout, billing portal, magic-link authentication, and Stripe webhook processing.
+
 ## Getting Started
 
-### Setting up your environment
-
 ```bash
-nvm install
-yarn
+nvm install        # installs Node 24 from .nvmrc
+yarn               # install dependencies
+cp .env.example .env  # fill in values from a teammate
 ```
 
-Get a copy of `.env` from another engineer. There is also a `.env.example` you can reference.
-
-### Running the project
+### Running locally
 
 ```bash
-nvm use
-docker compose up -d
-yarn start:dev
+docker compose up -d   # starts local Postgres on port 5432
+yarn start:dev         # ts-node-dev with hot reload
 ```
 
-**NOTE:** `nvm use` is only necessary if your local node default is not version 16.
+The API listens on port **3002**.
 
 ## Testing
 
-### Unit Testing
-
-To run the suite of unit tests run
-
 ```bash
-yarn test:unit
+yarn test:unit     # runs all *.unit.ts files with Mocha
+yarn typecheck     # tsc --noEmit
+yarn lint          # ESLint
 ```
-
-This will find all test files with the `.unit.ts` suffix and run them.
 
 ## Deployment
 
-This project is deployed via bitbucket pipeline, the pipeline configuration can be found at `./bitbucket-pipelines.yml`.
+Deployed via GitLab CI (`.gitlab-ci.yml`). Pipelines are triggered on pushes to `main`.
 
-The pipeline will:
+| Stage | Trigger | What it does |
+|-------|---------|-------------|
+| test | auto | unit tests + Snyk scan |
+| build | auto (main only) | builds Docker image, pushes to Docker Hub |
+| deploy:staging | auto (main only) | SSH to stage EC2, pulls image, restarts container |
+| deploy:production | manual | SSH to prod EC2, pulls image, restarts container |
 
-- Push a fresh docker image to docker hub.
-- Remote into an EC2 instance and pull down the new image.
-- Stop the current running container, then spin up a new container with the new image.
+Containers run with `--restart unless-stopped` so they survive EC2 reboots.
 
-## Access
+After each deploy, `docker image prune -af` runs to prevent disk accumulation.
 
-### Endpoints
+## Infrastructure
 
-- Local: <http://localhost:3002>
-- Staging: <https://api-stage.amplifyhope.cc>
-- Production: <https://api.amplifyhope.cc>
+| Resource | Details |
+|----------|---------|
+| Compute | Single EC2 instance per environment (prod + stage), Docker container |
+| Database | AWS RDS PostgreSQL — shared instance, separate DB per environment |
+| Reverse proxy | nginx on the EC2 host, SSL via certbot/Let's Encrypt |
+| Docker images | Docker Hub — `agiannellah/ah-api` |
 
-## Other Information
+## Endpoints
 
-### Local Database
+| Environment | URL |
+|-------------|-----|
+| Local | http://localhost:3002 |
+| Staging | https://api-stage.amplifyhope.cc |
+| Production | https://api.amplifyhope.cc |
 
-The database used in local development is run as a docker container and the details are configured in `./docker-compose.yml`.
+### Routes
 
-This file looks for the `00_SCHEMA.sql` located at `src/init-db/00_SCHEMA.sql`.
+- `GET /health` — DB connectivity check (returns 503 if DB unreachable)
+- `GET /products/:type` — Stripe products (one-time or recurring)
+- `POST /checkout` — Create Stripe checkout session
+- `GET /checkout-sessions/:id` — Fetch session status
+- `POST /create-portal-session` — Stripe billing portal
+- `POST /stripe-webhooks` — Stripe event handler
+- `POST /login` — Send magic link via Resend
+- `GET /verify` — Verify magic link JWT, redirect to billing portal
 
-If you need to add to or alter the database, you need to make changes to `00_SCHEMA.sql`.
+## Local Database
 
-### Scripts
+Runs as a Docker container (see `docker-compose.yml`). Schema lives at `src/init-db/00_SCHEMA.sql`. To reset:
 
-- Format the entire project based on the `.prettierrc.json`.
+```bash
+yarn rebuild-db
+```
 
-  ```bash
-  yarn format
-  ```
+## Useful Scripts
 
-- Check the project for type safety,
+```bash
+yarn format      # Prettier
+yarn typecheck   # TypeScript check without emit
+yarn build       # compile to build/src/ (used in Docker)
+```
 
-  ```bash
-  yarn typecheck
-  ```
+## Links
 
-### Links
-
-- [Amplify Hope Website](https://amplifyhope.cc)
-- [Docker Repo](https://hub.docker.com/r/agiannellah/ah-api)
+- [Frontend repo](https://gitlab.com/amplifyhope/ah-website-ui)
+- [Docker Hub](https://hub.docker.com/r/agiannellah/ah-api)
+- [Amplify Hope](https://amplifyhope.cc)
