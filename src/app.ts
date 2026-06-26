@@ -7,8 +7,6 @@ import express from 'express'
 import cors, { CorsOptions } from 'cors'
 import routes from './routes'
 
-process.on('SIGTERM', () => process.exit(0))
-process.on('SIGINT', () => process.exit(0))
 
 export const app = express()
 

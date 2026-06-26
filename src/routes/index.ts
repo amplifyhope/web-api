@@ -8,13 +8,17 @@ import {
 } from '../controllers'
 import { loginHandler } from '../controllers/identity/login-handler'
 import { verifyMagicLink } from '../controllers/identity/verify-magic-link'
+import { getPool } from '../config/db'
 
 const router = express.Router()
 
-router.get('/health', (_req, res) => {
-  res.status(200).json({
-    health: 'ok'
-  })
+router.get('/health', async (_req, res) => {
+  try {
+    await getPool().query({ text: 'SELECT 1' })
+    res.status(200).json({ health: 'ok' })
+  } catch {
+    res.status(503).json({ health: 'degraded', db: 'unreachable' })
+  }
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

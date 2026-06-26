@@ -32,7 +32,7 @@ let pool: CustomPool
 
 export const getPool = () => {
   if (!pool) {
-    const pgPool = new Pool(config.db)
+    const pgPool = new Pool({ ...config.db, max: 5, idleTimeoutMillis: 30000 })
     pool = buildCustomPool(pgPool)
   }
 
